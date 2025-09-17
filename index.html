@@ -1,83 +1,198 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sri Mahesh Abhiram | Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <meta charset="utf-8" />
+  <title>Baum–Welch HMM — Python Source</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Highlight.js (syntax highlighting) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>window.addEventListener('DOMContentLoaded', () => hljs.highlightAll());</script>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Poppins', sans-serif; background: #f9f9f9; color: #333; padding: 40px; }
-    h1 { text-align: center; color: #0056b3; margin-bottom: 10px; }
-    p.subtitle { text-align: center; margin-bottom: 30px; font-size: 18px; }
-    .buttons { text-align: center; margin-bottom: 40px; }
-    .buttons a { text-decoration: none; padding: 10px 20px; border: 1px solid #0056b3; color: #0056b3; margin: 0 10px; border-radius: 8px; transition: 0.3s; }
-    .buttons a:hover { background: #0056b3; color: #fff; }
-    .section { max-width: 900px; margin: auto; margin-bottom: 40px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    h2 { color: #0056b3; margin-bottom: 10px; }
-    ul { list-style-type: disc; margin-left: 20px; }
-    li { margin-bottom: 5px; }
+    :root { --bg:#0b1220; --card:#111a2b; --text:#eaf2ff; --muted:#a8b3cf; --accent:#7aa7ff; }
+    html, body { margin:0; padding:0; background:var(--bg); color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+    .wrap { max-width: 1100px; margin: 40px auto; padding: 0 16px; }
+    h1 { margin: 0 0 12px; font-size: 1.8rem; }
+    p.sub { margin: 0 0 24px; color: var(--muted); }
+    .card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+    .toolbar { display:flex; gap:10px; justify-content:flex-end; padding:12px; border-bottom:1px solid rgba(255,255,255,0.06); }
+    button { background:transparent; color:var(--text); border:1px solid rgba(255,255,255,0.18); border-radius:10px; padding:8px 12px; cursor:pointer; transition:transform .05s ease, background .2s ease, border-color .2s ease; }
+    button:hover { background: rgba(255,255,255,0.06); border-color: rgba(122,167,255,0.6); }
+    button:active { transform: scale(0.98); }
+    pre { margin:0; padding:18px; overflow:auto; border-radius: 0 0 16px 16px; }
+    .note { margin-top: 10px; color: var(--muted); font-size: .92rem; }
+    .tag { display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid rgba(255,255,255,0.18); color:var(--accent); font-size:.8rem; margin-left:6px; }
   </style>
 </head>
 <body>
+  <div class="wrap">
+    <h1>Baum–Welch HMM <span class="tag">Python</span></h1>
+    <p class="sub">Your full script with Forward/Backward, Baum–Welch expectation, tests, and utilities.</p>
 
-  <h1>Sri Mahesh Abhiram</h1>
-  <p class="subtitle">Artificial Intelligence and Data Science student at Amrita Vishwa Vidyapeetham</p>
+    <div class="card">
+      <div class="toolbar">
+        <button id="copyBtn" title="Copy to clipboard">📋 Copy</button>
+        <button id="downloadBtn" title="Download as .py">⬇️ Download .py</button>
+      </div>
+      <pre><code id="codeBlock" class="language-python"></code></pre>
+    </div>
 
-  <div class="buttons">
-    <a href="https://github.com/Abhiram2005-pro" target="_blank">GitHub</a>
-    <a href="https://www.linkedin.com/in/vattikuti-sri-mahesh-abhiram-88b081296/" target="_blank">LinkedIn</a>
-    <a href="mailto:srimaheshabhiram@gmail.com">Email</a>
+    <p class="note">Tip: Click <strong>Download</strong> to save as <code>baum_welch.py</code>.</p>
   </div>
 
-  <div class="section">
-    <h2>About Me</h2>
-    <p>
-      I'm a B.Tech Artificial Intelligence & Data Science student from Amrita Vishwa Vidyapeetham, passionate about AI-powered solutions in healthcare, robotics, and smart systems. I specialize in deep learning, big data, and quantum machine learning. My work blends cutting-edge research with practical implementation to deliver impactful results.
-    </p>
-  </div>
+  <!-- Store your raw Python (no escaping needed) -->
+  <script type="text/plain" id="pySource">
+import numpy as np
 
-  <div class="section">
-    <h2>Skills</h2>
-    <ul>
-      <li>Languages: Python, C++, C, Java, HTML, CSS, JavaScript, SQL, Scala</li>
-      <li>Technologies: Hadoop, Machine Learning, Deep Learning, NLP, GEN AI, LLMs</li>
-    </ul>
-  </div>
+def ForwardAlgorithm(transition, emission, initial, observations):
+    n = transition.shape[0]
+    T = len(observations)
+    alpha = np.zeros((T, n))
+    alpha[0, :] = initial * emission[:, observations[0]]     ##
+    for t in range(1, T):
+        for j in range(n):
+            alpha[t, j] = emission[j, observations[t]] * np.sum(alpha[t-1, :] * transition[:, j])        ##
+    return alpha
 
-  <div class="section">
-    <h2>Projects</h2>
-    <ul>
-      <li>Translational Model (English to Telugu using LLMs)</li>
-      <li>Hand Gesture Controlled Robotic Arm</li>
-      <li>Color Sorting Robotic Arm using CNN</li>
-      <li>Plant Disease Detection Vehicle with GPS</li>
-      <li>Smart Blind Hat for Visually Impaired</li>
-      <li>Code Generator Chatbot using LLaMA</li>
-      <li>Identification of Catalyst using ML and CBFV</li>
-      <li>Smart Bandwidth Allocation System</li>
-      <li>Decision Tree Generator using AVL Trees</li>
-    </ul>
-  </div>
+def BackwardAlgorithm(transition, emission, observations):
+    n = transition.shape[0]
+    T = len(observations)
+    beta = np.zeros((T, n))
+    beta[T-1, :] = 1    ##
+    for t in range(T-2, -1, -1):
+        for i in range(n):
+            beta[t, i] = np.sum(transition[i, :] * emission[:, observations[t+1]] * beta[t+1, :])     ##
+    return beta
 
-  <div class="section">
-    <h2>Experience</h2>
-    <ul>
-      <li><strong>Zaytoon Solution, Bangladesh</strong> – AI Chatbot Developer (Jun 2024 – Jul 2024)
-        <ul>
-          <li>Built a multilingual banking chatbot using DeepSeek, NLLB, and Bangla LLaMA</li>
-          <li>Integrated database matching and fallback LLM answering with UI design</li>
-        </ul>
-      </li>
-      <li><strong>Amrita Vishwa Vidyapeetham</strong> – Lip-to-Speech Research (Jun 2024 – Present)
-        <ul>
-          <li>Developed Lip-to-Text system using 3D CNNs and Transformers (CTC loss)</li>
-          <li>Generated speech using Visual TTS and BigVGAN vocoder</li>
-          <li>Integrated speaker embeddings for personalized voice synthesis</li>
-        </ul>
-      </li>
-    </ul>
-  </div>
+def BaumWelchExpectation(forward, backward, observations, transition, emission):
+    n = transition.shape[0]
+    m = emission.shape[1]
+    T = len(observations)
+    xi = np.zeros((T-1, n, n))
+    gamma = np.zeros((T, n))
+    
+    for t in range(T-1):
+        denom = np.sum(forward[t, :] * transition * emission[:, observations[t+1]] * backward[t+1, :])      ##
+        for i in range(n):
+            for j in range(n):
+                xi[t, i, j] = forward[t, i] * transition[i, j] * emission[j, observations[t+1]] * backward[t+1, j]          ##
+        xi[t, :, :] /= denom
+    
+    gamma = np.sum(xi, axis=2)
+    gamma = np.vstack((gamma, forward[T-1, :] * backward[T-1, :] / np.sum(forward[T-1, :] * backward[T-1, :])))
 
+    new_transition = np.sum(xi, axis=0)
+    new_transition /= np.sum(gamma[:-1], axis=0, keepdims=True).T ##
+
+    new_emission = np.zeros((n, m))
+    for k in range(m):
+        for i in range(n):
+            mask = [1 if obs == k else 0 for obs in observations]
+            new_emission[i, k] = np.sum(gamma[:, i] * mask)     ##
+    new_emission /= np.sum(gamma, axis=0, keepdims=True).T
+
+    return new_transition, new_emission
+
+def BaumWelch(transition, emission, initial, observations):
+    iterations = 4
+    for it in range(iterations):
+        forward = ForwardAlgorithm(transition, emission, initial, observations)
+        backward = BackwardAlgorithm(transition, emission, observations)
+        transition, emission = BaumWelchExpectation(forward, backward, observations, transition, emission)
+    return transition, emission
+
+TOLERANCE = 0.45 
+
+def compare_matrices(actual, expected, tol=TOLERANCE):
+    return np.allclose(actual, expected, atol=tol)
+ 
+
+def test_case_1():
+    transition = np.array([[0.7, 0.3],
+                           [0.4, 0.6]])
+    emission = np.array([[0.5, 0.5],
+                         [0.1, 0.9]])
+    initial = np.array([0.6, 0.4])
+    observations = [0, 1, 0]
+
+    updated_transition, updated_emission = BaumWelch(transition.copy(), emission.copy(), initial.copy(), observations)
+
+    expected_transition = np.array([[0.66, 0.34],
+                                    [0.30, 0.70]])
+    expected_emission = np.array([[0.45, 0.55],
+                                  [0.15, 0.85]])
+
+    assert compare_matrices(updated_transition, expected_transition), f"Test case 1 failed for transition.\nExpected:\n{expected_transition}\nGot:\n{updated_transition}"
+    assert compare_matrices(updated_emission, expected_emission), f"Test case 1 failed for emission.\nExpected:\n{expected_emission}\nGot:\n{updated_emission}"
+    print("Test case 1 passed!")
+
+
+def test_case_2():
+    transition = np.array([[0.5, 0.5],
+                           [0.2, 0.8]])
+    emission = np.array([[0.6, 0.4],
+                         [0.3, 0.7]])
+    initial = np.array([0.8, 0.2])
+    observations = [1, 0, 1, 1]
+
+    updated_transition, updated_emission = BaumWelch(transition.copy(), emission.copy(), initial.copy(), observations)
+
+    expected_transition = np.array([[0.55, 0.45],
+                                    [0.25, 0.75]])
+    expected_emission = np.array([[0.50, 0.50],
+                                  [0.20, 0.80]])
+
+    assert compare_matrices(updated_transition, expected_transition), f"Test case 2 failed for transition.\nExpected:\n{expected_transition}\nGot:\n{updated_transition}"
+    assert compare_matrices(updated_emission, expected_emission), f"Test case 2 failed for emission.\nExpected:\n{expected_emission}\nGot:\n{updated_emission}"
+    print("Test case 2 passed!")
+
+
+if __name__ == "__main__":
+    test_case_1()
+    test_case_2()
+  </script>
+
+  <script>
+    // Inject raw Python into the <code> block safely (preserves formatting)
+    const source = document.getElementById('pySource').textContent;
+    const codeBlock = document.getElementById('codeBlock');
+    codeBlock.textContent = source; // keep as text; highlight.js will handle styling
+    if (window.hljs) { hljs.highlightElement(codeBlock); }
+
+    // Copy to clipboard
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(source);
+        flash('Copied!');
+      } catch (e) {
+        flash('Copy failed');
+      }
+    });
+
+    // Download as .py
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const blob = new Blob([source], { type: 'text/x-python' });
+      const url = URL.createObjectURL(blob);
+      const a = Object.assign(document.createElement('a'), { href: url, download: 'baum_welch.py' });
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    // Tiny toast helper
+    function flash(text) {
+      const t = document.createElement('div');
+      t.textContent = text;
+      Object.assign(t.style, {
+        position:'fixed', right:'16px', bottom:'16px', background:'rgba(0,0,0,0.7)',
+        color:'#fff', padding:'10px 14px', borderRadius:'10px', fontSize:'14px',
+        zIndex:9999, opacity:0, transition:'opacity .15s ease'
+      });
+      document.body.appendChild(t);
+      requestAnimationFrame(()=> t.style.opacity = 1);
+      setTimeout(()=> { t.style.opacity = 0; setTimeout(()=> t.remove(), 200); }, 1200);
+    }
+  </script>
 </body>
 </html>
