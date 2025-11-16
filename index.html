@@ -8,76 +8,296 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Poppins', sans-serif; background: #f9f9f9; color: #333; padding: 40px; }
-    h1 { text-align: center; color: #0056b3; margin-bottom: 10px; }
-    p.subtitle { text-align: center; margin-bottom: 30px; font-size: 18px; }
-    .buttons { text-align: center; margin-bottom: 40px; }
-    .buttons a { text-decoration: none; padding: 10px 20px; border: 1px solid #0056b3; color: #0056b3; margin: 0 10px; border-radius: 8px; transition: 0.3s; }
-    .buttons a:hover { background: #0056b3; color: #fff; }
-    .section { max-width: 900px; margin: auto; margin-bottom: 40px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    h2 { color: #0056b3; margin-bottom: 10px; }
-    ul { list-style-type: disc; margin-left: 20px; }
-    li { margin-bottom: 5px; }
+    
+    .header-section {
+      max-width: 900px;
+      margin: 0 auto 40px;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+    }
+    
+    .header-left {
+      flex: 1;
+    }
+    
+    .header-left h1 {
+      color: #0056b3;
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+    
+    .header-left .subtitle {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+    
+    .contact-info {
+      margin-top: 15px;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    
+    .contact-info p {
+      margin-bottom: 5px;
+    }
+    
+    .contact-info strong {
+      color: #0056b3;
+      display: inline-block;
+      width: 70px;
+    }
+    
+    .photo-container {
+      flex-shrink: 0;
+    }
+    
+    .photo-container img {
+      width: 150px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 3px solid #0056b3;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .buttons { 
+      text-align: center; 
+      margin-bottom: 40px; 
+    }
+    
+    .buttons a { 
+      text-decoration: none; 
+      padding: 10px 20px; 
+      border: 1px solid #0056b3; 
+      color: #0056b3; 
+      margin: 0 10px; 
+      border-radius: 8px; 
+      transition: 0.3s; 
+      display: inline-block;
+    }
+    
+    .buttons a:hover { 
+      background: #0056b3; 
+      color: #fff; 
+    }
+    
+    .section { 
+      max-width: 900px; 
+      margin: auto; 
+      margin-bottom: 40px; 
+      background: white; 
+      padding: 20px; 
+      border-radius: 10px; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+    }
+    
+    h2 { 
+      color: #0056b3; 
+      margin-bottom: 15px; 
+      border-bottom: 2px solid #0056b3;
+      padding-bottom: 8px;
+    }
+    
+    ul { 
+      list-style-type: disc; 
+      margin-left: 20px; 
+    }
+    
+    li { 
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    
+    .experience-item, .publication-item {
+      margin-bottom: 20px;
+    }
+    
+    .experience-item strong, .publication-item strong {
+      color: #0056b3;
+      font-size: 16px;
+    }
+    
+    .experience-item .role {
+      font-style: italic;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    
+    .publication-item a {
+      color: #0056b3;
+      text-decoration: none;
+    }
+    
+    .publication-item a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      .header-section {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .header-left {
+        order: 2;
+      }
+      
+      .photo-container {
+        order: 1;
+      }
+      
+      .contact-info {
+        text-align: left;
+      }
+    }
   </style>
 </head>
 <body>
-
-  <h1>Sri Mahesh Abhiram</h1>
-  <p class="subtitle">Artificial Intelligence and Data Science student at Amrita Vishwa Vidyapeetham</p>
-
+  <!-- HEADER WITH PHOTO AND CONTACT -->
+  <div class="header-section">
+    <div class="header-left">
+      <h1>Vattikuti Sri Mahesh Abhiram</h1>
+      <p class="subtitle">B.Tech in Artificial Intelligence and Data Science</p>
+      <p class="subtitle">Amrita Vishwa Vidyapeetham, Coimbatore</p>
+      
+      <div class="contact-info">
+        <p><strong>Email:</strong> srimaheshabhiram@gmail.com</p>
+        <p><strong>Phone:</strong> +91-630-996-5777</p>
+        <p><strong>Location:</strong> Kommugudem, Andhra pradesh</p>
+        <p><strong>DOB:</strong> 19th November 2005</p>
+      </div>
+    </div>
+    
+    <div class="photo-container">
+      <img src="passport.jpg" alt="Sri Mahesh Abhiram">
+    </div>
+  </div>
+  
+  <!-- SOCIAL LINKS -->
   <div class="buttons">
     <a href="https://github.com/Abhiram2005-pro" target="_blank">GitHub</a>
     <a href="https://www.linkedin.com/in/vattikuti-sri-mahesh-abhiram-88b081296/" target="_blank">LinkedIn</a>
-    <a href="mailto:srimaheshabhiram@gmail.com">Email</a>
+    <a href="mailto:srimaheshabhiram@gmail.com">Email Me</a>
+    <a href="Resume (3).pdf" target="_blank">Download Resume</a>
   </div>
-
+  
+  <!-- ABOUT ME / OBJECTIVE -->
   <div class="section">
     <h2>About Me</h2>
     <p>
-      I'm a B.Tech Artificial Intelligence & Data Science student from Amrita Vishwa Vidyapeetham, passionate about AI-powered solutions in healthcare, robotics, and smart systems. I specialize in deep learning, big data, and quantum machine learning. My work blends cutting-edge research with practical implementation to deliver impactful results.
+      Results-driven AI and Data Science undergraduate with hands-on experience in developing intelligent chatbots, speech synthesis systems, and ML-powered applications. Passionate about leveraging expertise in deep learning, NLP, and LLMs to solve complex real-world problems while contributing to innovative AI solutions in healthcare, robotics, and smart systems. My work blends cutting-edge research with practical implementation to deliver impactful results.
     </p>
   </div>
-
+  
+  <!-- EXPERIENCE -->
   <div class="section">
-    <h2>Skills</h2>
-    <ul>
-      <li>Languages: Python, C++, C, Java, HTML, CSS, JavaScript, SQL, Scala</li>
-      <li>Technologies: Hadoop, Machine Learning, Deep Learning, NLP, GEN AI, LLMs</li>
-    </ul>
+    <h2>Experience</h2>
+    
+    <div class="experience-item">
+      <strong>AI Chatbot Developer</strong><br>
+      <span class="role">Zaytoon Solutions, Bangladesh | June 2025 – July 2025</span>
+      <ul>
+        <li><strong>Banking Chatbot:</strong> Built AI-powered chatbot integrating backend database queries with LLMs to handle predefined and unseen queries</li>
+        <li><strong>Bangla Support:</strong> Implemented Deepseek + NLLB + Bangla-LLaMA for direct Bangla input-output translation</li>
+        <li><strong>UI Development:</strong> Prototyped interface in Gradio; later developed custom UI for better usability</li>
+      </ul>
+    </div>
+    
+    <div class="experience-item">
+      <strong>Research Intern – Lip-to-Speech Synthesis</strong><br>
+      <span class="role">Amrita Vishwa Vidyapeetham, Coimbatore | June 2025 – Ongoing</span>
+      <ul>
+        <li><strong>Lip-to-Text Model:</strong> Designed 3D CNN + Transformer encoder trained on LRS2 dataset using CTC loss</li>
+        <li><strong>Visual TTS:</strong> Generated synchronized speech audio using phoneme text + lip video features</li>
+        <li><strong>Voice Cloning:</strong> Applied Real-Time Voice Cloning for personalized embeddings</li>
+        <li><strong>Speech Synthesis:</strong> Synthesized high-quality audio using BigVGAN vocoder</li>
+        <li><strong>Dataset:</strong> Prepared dataset with 30 speakers, 7 sentences each (25 FPS, 16kHz audio)</li>
+        <li><strong>Tools:</strong> PyTorch, OpenCV, FFmpeg, Transformers, BigVGAN</li>
+      </ul>
+    </div>
   </div>
-
+  
+  <!-- RESEARCH PUBLICATIONS -->
+  <div class="section">
+    <h2>Research Publications</h2>
+    <div class="publication-item">
+      <strong>Identification and Sorting of Objects by Color using Robotic Arm</strong><br>
+      <em>Authors:</em> Patnayakuni Hari Gopal Vatsal, Vattikuti Sri Mahesh Abhiram, S Janaki Ramamjaneya Reddy, Mohit Madhav Kuthadi<br>
+      <em>Conference:</em> 2025 6th International Conference on Recent Advances in Information Technology (RAIT), March 2025<br>
+      <em>DOI:</em> <a href="https://doi.org/10.1109/RAIT65068.2025.11088895" target="_blank">10.1109/RAIT65068.2025.11088895</a>
+    </div>
+  </div>
+  
+  <!-- PROJECTS -->
   <div class="section">
     <h2>Projects</h2>
     <ul>
-      <li>Translational Model (English to Telugu using LLMs)</li>
-      <li>Hand Gesture Controlled Robotic Arm</li>
-      <li>Color Sorting Robotic Arm using CNN</li>
-      <li>Plant Disease Detection Vehicle with GPS</li>
-      <li>Smart Blind Hat for Visually Impaired</li>
-      <li>Code Generator Chatbot using LLaMA</li>
-      <li>Identification of Catalyst using ML and CBFV</li>
-      <li>Smart Bandwidth Allocation System</li>
-      <li>Decision Tree Generator using AVL Trees</li>
+      <li><strong>Translational Models:</strong> Fine-tuned LLMs for English–Telugu translation tasks</li>
+      <li><strong>Code Generator Chatbot:</strong> Fine-tuned CodeLLaMA on Python CodeX dataset for code generation with explanation pipeline</li>
+      <li><strong>Plant Disease Detection Vehicle:</strong> Autonomous vehicle with ML-based disease detection, GPS tracking, and treatment suggestions</li>
+      <li><strong>Smart Blind Hat:</strong> Assistive wearable with OCR, DeepSort detection, and voice guidance</li>
+      <li><strong>Hand Gesture Controlled Robotic Arm:</strong> Robotic arm using flex + accelerometer sensors</li>
+      <li><strong>Color Sorting Robotic Arm:</strong> Raspberry Pi + CNN for color detection and sorting</li>
+      <li><strong>Catalyst Identification:</strong> Applied Random Forest, XGBoost, and ML models</li>
+      <li><strong>Smart Bandwidth Allocation:</strong> ML algorithms for dynamic bandwidth allocation</li>
+      <li><strong>Decision Tree Generator using AVL Trees:</strong> Developed tree-based decision generator</li>
     </ul>
   </div>
-
+  
+  <!-- TECHNICAL SKILLS -->
   <div class="section">
-    <h2>Experience</h2>
-    <ul>
-      <li><strong>Zaytoon Solution, Bangladesh</strong> – AI Chatbot Developer (Jun 2024 – Jul 2024)
-        <ul>
-          <li>Built a multilingual banking chatbot using DeepSeek, NLLB, and Bangla LLaMA</li>
-          <li>Integrated database matching and fallback LLM answering with UI design</li>
-        </ul>
+    <h2>Technical Skills</h2>
+    <ul style="list-style-type: none; margin-left: 0;">
+      <li><strong>Languages:</strong> Python, C, Java (Basic), Scala, MATLAB</li>
+      <li><strong>Frameworks & Libraries:</strong> TensorFlow, PyTorch, Scikit-learn, Matplotlib, NLTK</li>
+      <li><strong>Database / Version Control:</strong> SQL, Git</li>
+      <li><strong>Specializations:</strong> Machine Learning, Deep Learning, NLP, Generative AI, LLMs, Computer Vision</li>
+    </ul>
+  </div>
+  
+  <!-- EDUCATION -->
+  <div class="section">
+    <h2>Education</h2>
+    <ul style="list-style-type: none; margin-left: 0;">
+      <li>
+        <strong>B.Tech in Artificial Intelligence and Data Science</strong><br>
+        Amrita Vishwa Vidyapeetham, Coimbatore | 2023 – 2027 | CGPA: 7.15/10
       </li>
-      <li><strong>Amrita Vishwa Vidyapeetham</strong> – Lip-to-Speech Research (Jun 2024 – Present)
-        <ul>
-          <li>Developed Lip-to-Text system using 3D CNNs and Transformers (CTC loss)</li>
-          <li>Generated speech using Visual TTS and BigVGAN vocoder</li>
-          <li>Integrated speaker embeddings for personalized voice synthesis</li>
-        </ul>
+      <li style="margin-top: 15px;">
+        <strong>Intermediate</strong><br>
+        Tirumala Junior College | 2023 | 97.0%
+      </li>
+      <li style="margin-top: 15px;">
+        <strong>10th Grade</strong><br>
+        Tirumala Educational Institutes | 2021 | 100%
       </li>
     </ul>
   </div>
-
+  
+  <!-- PERSONAL STRENGTHS -->
+  <div class="section">
+    <h2>Personal Strengths</h2>
+    <ul>
+      <li>Good team player</li>
+      <li>Quick learner</li>
+      <li>Creative thinking</li>
+      <li>Good logical reasoning</li>
+      <li>Excellent communication skills</li>
+    </ul>
+  </div>
+  
+  <!-- HOBBIES & INTERESTS -->
+  <div class="section">
+    <h2>Hobbies & Interests</h2>
+    <p>Gaming, watching movies, and gardening</p>
+  </div>
+  
 </body>
 </html>
